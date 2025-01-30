@@ -1,0 +1,82 @@
+body { 
+    font-family: 'Inter', sans-serif; 
+    text-align: center; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Alinha os elementos no topo */
+    min-height: 100vh; /* Garante que o body ocupe pelo menos a altura da viewport */
+    margin: 0; /* Remove a margem padrão */
+    padding: 20px 0; /* Adiciona espaçamento superior e inferior */
+    background: var(--background-color); /* Assegura que o background-color esteja definido */
+    color: var(--text-color);
+}
+canvas { border: 1px solid #ccc; margin-top: 30px; border-radius: 4px; height: auto;}
+.controls { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+button {
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+button:hover {
+    background-color: #0ebab5;
+}
+input[type="color"], input[type="file"] {
+    padding: 5px;
+    border: 20px solid var(--border-color);
+    border-radius: 10px;
+}
+
+input[type="color"] {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+
+/* Campo de Exibição do JSON */
+.json-output {
+    width: 80%;
+    max-width: 800px;
+    margin-top: 40px;
+    text-align: left;
+}
+
+.json-output h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.json-output textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    resize: vertical;
+    font-family: monospace;
+    font-size: 14px;
+    background-color: #f5f5f5;
+    color: #333;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+@media (max-width: 600px) {
+    canvas {
+        width: 90%;
+        height: auto;
+    }
+    .controls {
+        flex-direction: column;
+    }
+    button, input[type="color"], input[type="file"] {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+

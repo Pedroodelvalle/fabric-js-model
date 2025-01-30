@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric.js Interactive Design Tool</title>
+    <!-- Fabric.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <!-- Link to the Updated CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Fabric.js Design Tool</h2>
+    <div class="controls">
+        <button id="addRectangle">Add Rectangle</button>
+        <button id="addCircle">Add Circle</button>
+        <button id="addText">Add Text</button>
+        <button id="deleteSelected">Delete Selected</button>
+        <button id="bringForward">Bring Forward</button>
+        <button id="sendBackward">Send Backward</button>
+        <input type="color" id="colorPicker">
+        <input type="file" id="imageLoader" accept="image/*" title="Upload Image">
+        <input type="file" id="jsonLoader" accept="application/json" title="Load JSON">        
+        <button id="saveCanvas">Save JSON</button>
+    </div>
+    <canvas id="canvas" width="360" height="450"></canvas>
+
+     <!-- Campo de Exibição do JSON -->
+    <div class="json-output">
+        <h3>Canvas JSON</h3>
+        <textarea id="jsonOutput" readonly></textarea>
+    </div>
+    
+    <!-- Link to the Updated JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
