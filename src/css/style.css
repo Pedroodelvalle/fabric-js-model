@@ -138,3 +138,15 @@ input[type="color"]::-webkit-color-swatch {
     background-color: var(--button-hover-color);
 }
 
+#universe {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    overflow: hidden;
+    position: relative;
+}
+
+canvas {
+    position: absolute;
+}
+
