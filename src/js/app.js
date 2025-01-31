@@ -182,35 +182,28 @@ const FabricApp = {
         if (file) {
             var reader = new FileReader();
 
-            reader.onload = function(f) {
-                var dataURL = f.target.result;
-                fabric.Image.fromURL(dataURL, function(oImg) {
-                    // Check if the image is larger than the canvas and scale it down if necessary
-                    var scale = Math.min(this.canvas.width / oImg.width, this.canvas.height / oImg.height);
-                    if (scale < 1) {
-                        oImg.scale(scale);
-                    }
-                    // Set the image position to the center of the canvas
-                    oImg.set({
-                        left: this.canvas.width / 2 - oImg.width * oImg.scaleX / 2,
-                        top: this.canvas.height / 2 - oImg.height * oImg.scaleY / 2
-                    });
-                    this.canvas.add(oImg); // Add the image to the canvas
-                    this.canvas.renderAll(); // Re-render the canvas
-                    console.log('Image should be added to the canvas.');
-                }.bind(this), {
-                    crossOrigin: 'anonymous' // Use this if you're loading images from an external source
-                });
-            };
+            fabric.Image.fromURL(e.target.result, function(oImg) {
+                // Log the Fabric image object to the console to verify it's correct
+                console.log('Fabric image object:', oImg);
+
+                // Scale the image down to fit the canvas if it's too large
+                var scale = Math.min(this.canvas.width / oImg.width, this.canvas.height / oImg.height);
+                if (scale < 1) {
+                    oImg.scale(scale);
+                }
+                this.canvas.add(oImg); // Add the image to the canvas
+                this.saveStateAndUpdateJSON();
+            }.bind(this), {
+                // Set crossOrigin to 'anonymous' if loading images from an external source
+                crossOrigin: 'anonymous'
+            });
+        };
 
             reader.onerror = function(e) {
                 console.error('Error reading file:', e);
             };
 
-            reader.readAsDataURL(file);
-        } else {
-            console.error('No file selected.');
-        }
+        reader.readAsDataURL(file);
     },
 
     handleJSONUpload(event) {
