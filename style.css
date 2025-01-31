@@ -34,10 +34,27 @@ input[type="color"], input[type="file"] {
     border-radius: 10px;
 }
 
+/* Style adjustments for color picker input */
 input[type="color"] {
+    -webkit-appearance: none; /* Removes default styling on WebKit browsers */
+    appearance: none; /* Removes default styling */
+    background-color: var(--button-color); /* Use the primary color or any color you prefer */
+    border: none; /* Removes border */
     cursor: pointer;
-    width: 35px;
-    height: 35px;
+    height: 48px; /* Match the height of other buttons */
+    width: 48px; /* Match the width of other buttons, adjust as needed */
+    border-radius: 50%; /* Fully rounded edges */
+    padding: 0;
+    margin: 0.25rem 0; /* Consistent spacing with other buttons */
+}
+
+/* Specific styles for WebKit browsers to remove the color well */
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
 }
 
 /* Campo de Exibição do JSON */
@@ -78,5 +95,46 @@ input[type="color"] {
         width: 100%;
         max-width: 300px;
     }
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px; /* Match the size of other buttons */
+    height: 48px; /* Match the size of other buttons */
+    border-radius: 50%; /* Fully rounded edges */
+}
+
+.file-input-container {
+    position: relative;
+    display: inline-block;
+}
+
+.file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.file-input-label {
+    margin: 0.25rem;
+    width: 48px; /* Match the size of other buttons */
+    height: 48px; /* Match the size of other buttons */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-input-label:hover,
+.file-input-label:focus {
+    background-color: var(--button-hover-color);
 }
 

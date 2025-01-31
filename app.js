@@ -45,6 +45,20 @@ const FabricApp = {
         } else if (event.ctrlKey && event.key === 'z') {
             this.undo();
         }
+        if (event.key === 'Delete' || event.keyCode === 46) {
+            this.deleteSelected();
+        }
+        if (event.key === 'Backspace' || event.key === 'Delete') {
+            if (this.canvas.getActiveObject()) {
+                event.preventDefault();
+            }
+            this.deleteSelected();
+        }
+        // Undo action when 'Command + Z' is pressed on Mac or 'Control + Z' on Windows
+        if ((event.metaKey || event.ctrlKey) && event.key === 'z') {
+            event.preventDefault(); // Prevent the browser's default undo action
+            this.undo();
+        }
     },
 
     addRectangle() {
@@ -57,6 +71,7 @@ const FabricApp = {
             selectable: true
         });
         this.canvas.add(rect);
+        this.saveState();
         this.saveStateAndUpdateJSON();
     },
 
@@ -69,6 +84,7 @@ const FabricApp = {
             selectable: true
         });
         this.canvas.add(circle);
+        this.saveState();
         this.saveStateAndUpdateJSON();
     },
 
@@ -81,6 +97,7 @@ const FabricApp = {
             editable: true
         });
         this.canvas.add(text);
+        this.saveState();
         this.saveStateAndUpdateJSON();
     },
 
@@ -146,7 +163,8 @@ const FabricApp = {
     },
 
     saveState() {
-        this.undoStack.push(JSON.stringify(this.canvas));
+        const currentState = JSON.stringify(this.canvas);
+        this.undoStack.push(currentState);
     },
 
     saveStateAndUpdateJSON() {
@@ -160,27 +178,39 @@ const FabricApp = {
     },
 
     handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (!file) {
-            return;
-        }
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
 
-        const reader = new FileReader();
-        reader.onload = (f) => {
-            const data = f.target.result;
-            fabric.Image.fromURL(data, (img) => {
-                img.set({
-                    left: 100,
-                    top: 100,
-                    scaleX: 0.5,
-                    scaleY: 0.5,
-                    selectable: true
+            reader.onload = function(f) {
+                var dataURL = f.target.result;
+                fabric.Image.fromURL(dataURL, function(oImg) {
+                    // Check if the image is larger than the canvas and scale it down if necessary
+                    var scale = Math.min(this.canvas.width / oImg.width, this.canvas.height / oImg.height);
+                    if (scale < 1) {
+                        oImg.scale(scale);
+                    }
+                    // Set the image position to the center of the canvas
+                    oImg.set({
+                        left: this.canvas.width / 2 - oImg.width * oImg.scaleX / 2,
+                        top: this.canvas.height / 2 - oImg.height * oImg.scaleY / 2
+                    });
+                    this.canvas.add(oImg); // Add the image to the canvas
+                    this.canvas.renderAll(); // Re-render the canvas
+                    console.log('Image should be added to the canvas.');
+                }.bind(this), {
+                    crossOrigin: 'anonymous' // Use this if you're loading images from an external source
                 });
-                this.canvas.add(img);
-                this.saveStateAndUpdateJSON();
-            }, { crossOrigin: 'anonymous' });
-        };
-        reader.readAsDataURL(file);
+            };
+
+            reader.onerror = function(e) {
+                console.error('Error reading file:', e);
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            console.error('No file selected.');
+        }
     },
 
     handleJSONUpload(event) {
